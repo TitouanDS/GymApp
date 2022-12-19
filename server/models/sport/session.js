@@ -5,8 +5,7 @@ const sessionSchema = new mongoose.Schema({
   status: Boolean,
   exercices: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Exercice",
+      exerciceId: { type: mongoose.Schema.Types.ObjectId, ref: "Exercice" },
       weight: String,
       timer: String,
       status: Boolean,

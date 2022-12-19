@@ -37,16 +37,24 @@ const initSession = async (req, res) => {
 
 const addExercice = async (req, res) => {
   try {
-    return console.log(req.body);
     const sessionId = req.params.sessionId;
-    const { exercice, status } = req.body;
-    await Session.findOneAndUpdate({ _id: sessionId }, { status });
-
-    await Session.updateMany({ _id: sessionId }, { exercices: exercice });
-
-    const currentSession = await Session.findById(sessionId);
+    const { exerciceId, status } = req.body;
+    // return console.log({
+    //   exerciceId: exerciceId,
+    //   status: status,
+    // });
+    const currentSession = await Session.findOneAndUpdate(
+      { _id: sessionId },
+      {
+        $push: {
+          exercices: {
+            exerciceId: exerciceId,
+            status: status,
+          },
+        },
+      }
+    );
     console.log(currentSession);
-
     res.json({ currentSession });
   } catch (error) {
     console.log(error), res.sendStatus(400);
